@@ -1,0 +1,6 @@
+SERVICE_ACCOUNT_FILE = "credentials.json"
+
+[SPREADSHEET]
+ID = "spreadsheetId"
+RANGE = "worksheetName"
+COLUMN_NAMES = ["field_1", "field_2", "field_x"]
