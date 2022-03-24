@@ -16,7 +16,7 @@ Google Spreadsheet:
 - Create a GoogleServiceAccount_.
 - Retrieve the service account credentials.
 - Share your Google Spreadsheet with the client email found in the service
-  account credentials file.
+  account credentials file (doesn't work with public spreadsheets).
 
 .. _ASDF: https://asdf-vm.com/
 .. _Poetry: https://python-poetry.org/
