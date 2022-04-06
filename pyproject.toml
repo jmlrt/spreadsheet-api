@@ -7,15 +7,11 @@ authors = ["Julien Mailleret <8582351+jmlrt@users.noreply.github.com>"]
 [tool.poetry.dependencies]
 aiogoogle = "^3.2.1"
 python = "^3.10"
-quart = "^0.16.3"
-toml = "^0.10.2"
+quart = "^0.17.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "*"
 pytest = "^5.2"
-
-[tool.poetry.scripts]
-spreadsheet-api = 'spreadsheet_api.main:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

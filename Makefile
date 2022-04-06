@@ -1,9 +1,11 @@
-CONFIG_FILE := config-test.toml
+QUART_APP := spreadsheet_api.app:app
+QUART_CONFIG := $$(pwd)/config-example.py
+QUART_ENV := development
 
 .PHONY: run
 run:
 	poetry install
-	QUART_ENV="development" poetry run spreadsheet-api -c $$(pwd)/$(CONFIG_FILE)
+	QUART_APP=$(QUART_APP) QUART_CONFIG=$(QUART_CONFIG) QUART_ENV=$(QUART_ENV) poetry run quart run
 
 .PHONY: clean
 clean:

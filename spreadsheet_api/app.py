@@ -1,40 +1,42 @@
 # -*- coding: utf-8 -*-
 """Quart app and routes"""
 
-import toml
-from quart import Quart
+from quart import Quart, jsonify
 
+from spreadsheet_api.config import Config
 from spreadsheet_api.worksheet import Worksheet
 
-_APP = None
+app = Quart(__name__)
+app.config.from_object(Config)
+app.config.from_envvar("QUART_CONFIG")
 
 
-def get_app(config_file=None):
-    """Initialize Quart app if it doesn't exists"""
-    global _APP
-
-    if _APP is None:
-        _APP = Quart(__name__)
-        _APP.worksheet = None
-    if _APP.worksheet is None and config_file is not None:
-        _APP.config.from_file(config_file, load=toml.load)
-        _APP.worksheet = Worksheet(
-            _APP.config["SERVICE_ACCOUNT_FILE"],
-            _APP.config["SPREADSHEET"]["ID"],
-            _APP.config["SPREADSHEET"]["RANGE"],
-            _APP.config["SPREADSHEET"]["COLUMN_NAMES"],
-        )
-    return _APP
-
-
-@get_app().route("/keys", methods=["GET"])
+@app.route("/api/v1/keys", methods=["GET"])
 async def get_keys():
     """Return spreadsheet keys"""
-    keys = await _APP.worksheet.get_keys()
-    return {"keys": list(keys)}
+    worksheet = await get_worksheet()
+    keys = await worksheet.get_keys()
+    return jsonify({"keys": list(keys)})
 
 
-@get_app().route("/row/<key>", methods=["GET"])
+@app.route("/api/v1/row/<key>", methods=["GET"])
 async def get_row_by_key(key):
     """Return spreadsheet row for a key"""
-    return await _APP.worksheet.get_row(key)
+    worksheet = await get_worksheet()
+    row = await worksheet.get_row(key)
+    return jsonify(row)
+
+
+async def get_worksheet():
+    """Load the worksheet if it wasn't loaded before, then return it"""
+    if not hasattr(app, "worksheet"):
+        app.logger.debug("worksheet not loaded")
+        app.worksheet = Worksheet(
+            app.config["SERVICE_ACCOUNT_FILE"],
+            app.config["SPREADSHEET_ID"],
+            app.config["SPREADSHEET_RANGE"],
+            app.config["SPREADSHEET_COLUMNS"],
+        )
+    else:
+        app.logger.debug(f"worksheet already loaded: {app.worksheet}")
+    return app.worksheet
