@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Quart app and routes"""
 
-from quart import Quart, jsonify
+from quart import Quart, jsonify, render_template
 
 from spreadsheet_api.config import Config
 from spreadsheet_api.worksheet import Worksheet
@@ -9,6 +9,15 @@ from spreadsheet_api.worksheet import Worksheet
 app = Quart(__name__)
 app.config.from_object(Config)
 app.config.from_envvar("QUART_CONFIG")
+
+
+@app.route("/", methods=["GET"])
+async def index():
+    """Return API index"""
+    return await render_template(
+        "index.html",
+        spreadsheet_id=app.config["SPREADSHEET_ID"],
+    )
 
 
 @app.route("/api/v1/keys", methods=["GET"])
