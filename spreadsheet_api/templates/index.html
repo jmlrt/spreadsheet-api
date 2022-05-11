@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 {% set spreadsheet_url = "https://docs.google.com/spreadsheets/d/" + spreadsheet_id + "/" %}
 {% set source_url = "https://github.com/jmlrt/spreadsheet-api" %}
 <html>
@@ -7,22 +8,17 @@
   <body>
     <h1>spreadsheet-api</h1>
     <p>
-      Generated REST API for <a href={{ spreadsheet_url }}>{{ spreadsheet_url }}</a>
+      Generated REST API for
+      <a href="{{ spreadsheet_url }}">{{ spreadsheet_url }}</a>
     </p>
-    <p>
-      Source: <a href={{ source_url }}>{{ source_url }}</a>
-    </p>
-    <p>
-      Routes:
-      <ul>
-        <li>
-          <code>/api/v1/keys</code>: list of spreadsheet keys
-        </li>
-        <li>
-          <code>/api/v1/row/&ltkey&gt</code>: list of spreadsheet values for a
-          key
-        </li>
-      </ul>
-    </p>
+    <p>Source: <a href="{{ source_url }}">{{ source_url }}</a></p>
+    <p>Routes:</p>
+    <ul>
+      <li><code>/api/v1/{{ route }}</code>: list of spreadsheet keys</li>
+      <li>
+        <code>/api/v1/{{ route }}/&ltkey&gt</code>: list of spreadsheet values
+        for a key
+      </li>
+    </ul>
   </body>
 </html>

@@ -1,5 +1,9 @@
 class Config:
+    # GCP service account to access the spreadsheet
     SERVICE_ACCOUNT_FILE = "credentials.json"
+
+    # route name
+    ROUTE_NAME = "datas"
 
     # https://docs.google.com/spreadsheets/d/<spreadsheetId>/
     SPREADSHEET_ID = "<spreadsheetId>"

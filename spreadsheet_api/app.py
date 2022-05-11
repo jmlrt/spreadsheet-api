@@ -9,28 +9,30 @@ from spreadsheet_api.worksheet import Worksheet
 app = Quart(__name__)
 app.config.from_object(Config)
 app.config.from_envvar("QUART_CONFIG")
+route = app.config["ROUTE_NAME"]
 
 
 @app.route("/", methods=["GET"])
 async def index():
     """Return API index"""
     return await render_template(
-        "index.html",
-        spreadsheet_id=app.config["SPREADSHEET_ID"],
+        "index.html", spreadsheet_id=app.config["SPREADSHEET_ID"], route=route
     )
 
 
-@app.route("/api/v1/keys", methods=["GET"])
+@app.route(f"/api/v1/{route}", methods=["GET"])
 async def get_keys():
     """Return spreadsheet keys"""
+    app.logger.debug("/api/v1/%s", route)
     worksheet = await get_worksheet()
     keys = await worksheet.get_keys()
     return jsonify({"keys": list(keys)})
 
 
-@app.route("/api/v1/row/<key>", methods=["GET"])
+@app.route(f"/api/v1/{route}/<key>", methods=["GET"])
 async def get_row_by_key(key):
     """Return spreadsheet row for a key"""
+    app.logger.debug("/api/v1/%s/<key>", route)
     worksheet = await get_worksheet()
     row = await worksheet.get_row(key)
     return jsonify(row)
@@ -47,5 +49,5 @@ async def get_worksheet():
             app.config["SPREADSHEET_COLUMNS"],
         )
     else:
-        app.logger.debug(f"worksheet already loaded: {app.worksheet}")
+        app.logger.debug("worksheet already loaded: %s", app.worksheet)
     return app.worksheet
