@@ -5,7 +5,7 @@ QUART_ENV := development
 .PHONY: run
 run:
 	poetry install
-	QUART_APP=$(QUART_APP) QUART_CONFIG=$(QUART_CONFIG) QUART_ENV=$(QUART_ENV) poetry run quart run
+	QUART_APP=$(QUART_APP) QUART_CONFIG=$(CURDIR)/$(QUART_CONFIG) QUART_ENV=$(QUART_ENV) poetry run quart run
 
 .PHONY: clean
 clean:
