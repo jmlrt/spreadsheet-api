@@ -21,15 +21,15 @@ async def index():
 
 
 @app.route(f"/api/v1/{route}", methods=["GET"])
-async def get_keys():
+async def get_sheet():
     """Return spreadsheet keys"""
     app.logger.debug("/api/v1/%s", route)
     worksheet = await get_worksheet()
-    keys = await worksheet.get_keys()
-    return jsonify({"keys": list(keys)})
+    sheet = await worksheet.get_sheet()
+    return jsonify({route: sheet})
 
 
-@app.route(f"/api/v1/{route}/<key>", methods=["GET"])
+@app.route(f"/api/v1/{route}/<int:key>", methods=["GET"])
 async def get_row_by_key(key):
     """Return spreadsheet row for a key"""
     app.logger.debug("/api/v1/%s/<key>", route)
