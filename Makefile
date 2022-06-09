@@ -1,5 +1,5 @@
 QUART_APP := spreadsheet_api.app:app
-QUART_CONFIG := $$(pwd)/config-example.py
+QUART_CONFIG := config-example.py
 QUART_ENV := development
 
 .PHONY: run
