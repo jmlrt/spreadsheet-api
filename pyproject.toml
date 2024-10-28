@@ -7,7 +7,7 @@ authors = ["Julien Mailleret <8582351+jmlrt@users.noreply.github.com>"]
 [tool.poetry.dependencies]
 aiogoogle = "^3.2.1"
 python = "^3.10"
-quart = "^0.17.0"
+quart = "^0.19.7"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "*"
